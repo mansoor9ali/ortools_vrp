@@ -150,7 +150,7 @@ def main():
 
     # Plot initial locations
     initial_plot = plot_locations(data['locations'], data['time_windows'])
-    initial_plot.savefig('initial_locations.png')
+    initial_plot.savefig('1-initial_locations.png')
     plt.close()
 
     # Create the routing index manager.
@@ -238,7 +238,7 @@ def main():
         print_solution(data, manager, routing, solution)
         # Plot the solution
         solution_plot = plot_solution(data, manager, routing, solution)
-        solution_plot.savefig('solution_routes.png')
+        solution_plot.savefig('1-solution_routes.png')
         plt.close()
     else:
         print('No solution found!')

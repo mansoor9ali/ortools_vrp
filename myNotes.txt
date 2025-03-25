@@ -28,6 +28,11 @@ compute_manhattan_distance(): Calculates distances between locations
 time_callback(): Handles time calculations including travel and service time
 print_solution(): Formats and displays the optimized routes
 
+Practical Applications:
+========================
+
+Delivery services with time constraints
+Medical supplies delivery with critical time windows
 
 
 The solver found a solution that satisfies all time window constraints:
@@ -73,3 +78,118 @@ Would you like me to:
 Modify the code to show actual travel times
 Add more locations to make the problem more complex
 Explain how the algorithm works in detail
+
+
+
+VRP with Capacity Constraints Implementation Complete
+====================================================
+
+Key Additions:
+
+Customer Demands:
+Added demand requirements for each customer (4, 3, 6, 2, and 5 units respectively)
+
+Vehicle Capacity Limits:
+Set different vehicle capacities (Vehicle 0: 10 units, Vehicle 1: 15 units)
+
+Capacity Dimension:
+Implemented OR-Tools capacity dimension to track and enforce capacity constraints
+Added unary transit callback for demand calculation
+
+Enhanced Visualization:
+Updated plot functions to display demand information
+Added capacity information to console output and route legends
+
+Generated Files:
+Created new visualization files: initial_locations_capacity.png and solution_routes_capacity.png
+Solution Analysis:
+The program successfully solved the routing problem with both time windows and capacity constraints. The solution shows:
+
+Vehicle 0 handles locations 2 and 1 with a total load of 7 units (within its 10-unit capacity)
+Vehicle 1 handles locations 5, 4, and 3 with a total load of 13 units (within its 15-unit capacity)
+All time window constraints are respected
+The total load across all routes is 20 units
+
+Practical Applications:
+This combined approach is valuable for:
+
+Delivery services with both capacity and time constraints
+Medical supplies delivery with both capacity and time constraints
+
+
+
+
+VRP with Multiple Depots Implementation Complete
+================================================
+ 
+Key Features:
+
+Multiple Depot Locations:
+Added two separate depot locations at (0,0) and (8,4)
+Expanded to 8 customer locations to create a more complex routing scenario
+
+
+Vehicle Assignments:
+3 vehicles with customized start/end depot assignments
+Vehicles 0 and 1 start and return to depot 0
+Vehicle 2 starts and returns to depot 1
+
+
+Enhanced Routing Model:
+Used the RoutingIndexManager with explicit start/end locations
+Modified time callback to handle multiple depots
+Adjusted time window constraints for depot-specific vehicles
+
+Improved Visualization:
+Enhanced plotting functions to display multiple depots with different markers
+Clear route visualization showing each vehicle's path from its assigned depot
+Generated new image files: initial_locations_multi_depot.png and solution_routes_multi_depot.png
+
+Solution Analysis:
+The solver successfully created routes for each vehicle:
+
+Vehicle 0 based at depot 0 (perhaps underutilized in this solution)
+Vehicle 1 based at depot 0 serves customers 3 and 2
+Vehicle 2 based at depot 1 serves customers 9, 8, 7, 6, 5, and 4
+All time window constraints are respected in the solution, and each vehicle returns to its assigned depot.
+
+Practical Applications:
+This multi-depot approach is especially valuable for:
+
+Companies with multiple warehouses or distribution centers
+Service providers with technicians starting from different locations
+Delivery services with regional hubs
+
+
+VRP with Time Windows Implementation Complete
+============================================
+
+Key Features:
+
+Time Windows:
+Added time windows for each location (10-30, 15-45, 45-75, 30-60, 50-80, 50-80)
+
+Routing Model:
+Used RoutingIndexManager with explicit time windows
+
+Visualization:
+Enhanced plotting functions to display time windows
+
+Solution Analysis:
+
+Vehicle 0:
+Starts at depot at time 0
+Visits Location 1 at time 15 (within window 10-30)
+Visits Location 2 at time 30 (within window 15-45)
+Returns to depot
+Vehicle 1:
+Starts at depot at time 0
+Visits Location 3 at time 45 (within window 45-75)
+Visits Location 4 at time 60 (within window 30-60)
+Returns to depot
+
+Practical Applications:
+This time window approach is valuable for:
+
+Delivery services with specific time constraints
+Medical supplies delivery with critical time windows
