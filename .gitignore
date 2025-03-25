@@ -39,3 +39,6 @@ Thumbs.db
 
 # Local configuration
 .env
+
+# Specific files to ignore
+textureAtlas.png
