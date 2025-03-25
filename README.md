@@ -1,19 +1,21 @@
-# Vehicle Routing Problem with Time Windows Example
+# Vehicle Routing Problem Examples with OR-Tools
 
-This project demonstrates how to solve a Vehicle Routing Problem (VRP) with Time Windows using Google OR-Tools. The example simulates a delivery service with multiple vehicles that need to visit customers within specific time windows.
+This project demonstrates how to solve various Vehicle Routing Problems (VRP) using Google OR-Tools. The examples simulate delivery services with multiple vehicles under different constraints and scenarios.
 
 ## Problem Description
 
-- Multiple vehicles start from a depot
-- Each customer has a specific time window for delivery
-- Each delivery takes a fixed amount of time (service time)
-- Vehicles travel at a constant speed
-- The goal is to find routes that satisfy all time windows while minimizing total time
+The project includes three different VRP scenarios with increasing complexity:
+
+1. **Basic VRP with Time Windows** - Vehicles must visit customers within specific time windows
+2. **VRP with Capacity Constraints** - Adds package volume limits to each vehicle
+3. **VRP with Multiple Depots** - Vehicles can start from and return to different depot locations
 
 ## Features
 
-- Multiple vehicles
+- Multiple vehicles with customizable properties
 - Time window constraints
+- Capacity constraints
+- Multiple depot support
 - Service time at each stop
 - Distance-based travel time
 - Route optimization to minimize total time
@@ -42,70 +44,130 @@ pip install -r requirements.txt
 
 ## Usage
 
-Run the example:
+Run any of the three examples:
 ```bash
-python vrp_with_time_windows.py
+python 1-vrp_with_time_windows.py
+python 2-vrp_with_capacity.py
+python 3-vrp_with_multiple_depots.py
 ```
 
-## Output
+## Scenario 1: VRP with Time Windows
 
-The program generates both textual and visual output:
+### Description
+Basic VRP where vehicles must visit customers within specific time windows.
 
-### Text Output
-- Routes for each vehicle
-- Arrival times at each location
-- Time windows for each location
-- Total time for each route
-- Total time for all routes
+### Key Features
+- Time window constraints for each customer
+- Service time at each location
+- Manhattan distance for travel time calculation
 
 ### Visual Output
-The program generates two visualization files:
+![Initial Locations](1-initial_locations.png)
+*Initial problem setup with time windows*
 
-1. `initial_locations.png`: Shows the initial problem setup
-   - Red square: Depot location
-   - Blue dots: Customer locations
-   - Labels: Location numbers and time windows
-   - Grid: Helps visualize distances
+![Solution Routes](1-solution_routes.png)
+*Optimized solution with time windows*
 
-2. `solution_routes.png`: Shows the optimized solution
-   - Same locations as initial setup
-   - Green line: Route for Vehicle 0
-   - Magenta line: Route for Vehicle 1
-   - Shows how customers are divided between vehicles
-   - Demonstrates the optimal path for each vehicle
+## Scenario 2: VRP with Capacity Constraints
 
-Example visualizations:
+### Description
+Extends the time window model by adding capacity constraints to model package volumes.
 
-![Initial Locations](initial_locations.png)
-*Initial problem setup showing depot and customer locations with time windows*
+### Key Features
+- All time window constraints from Scenario 1
+- Customer demands (package volumes)
+- Vehicle capacity limits
+- Load tracking throughout routes
 
-![Solution Routes](solution_routes.png)
-*Optimized solution showing routes for each vehicle*
+### Added Data
+```python
+# Customer demands
+data['demands'] = [0, 4, 3, 6, 2, 5]  # depot has 0 demand
+
+# Vehicle capacities
+data['vehicle_capacities'] = [10, 15]  # different capacities per vehicle
+```
+
+### Visual Output
+![Initial Locations with Demands](2-initial_locations_capacity.png)
+*Initial problem setup with demands and capacities*
+
+![Solution Routes with Capacity](2-solution_routes_capacity.png)
+*Optimized solution respecting both time windows and capacities*
+
+## Scenario 3: VRP with Multiple Depots
+
+### Description
+Enhanced VRP model that supports multiple depot locations with vehicles assigned to specific depots.
+
+### Key Features
+- Multiple depot locations
+- Custom vehicle start/end depot assignments
+- Enhanced visualization with depot markers
+- Support for 8 customer locations
+
+### Added Data
+```python
+# Define multiple depots
+data['depots'] = [0, 1]  # Locations 0 and 1 are depots
+
+# Assign vehicles to specific depots
+data['starts'] = [0, 0, 1]  # Vehicles 0,1 start at depot 0, Vehicle 2 at depot 1
+data['ends'] = [0, 0, 1]    # Vehicles return to their starting depots
+```
+
+### Visual Output
+![Initial Locations with Multiple Depots](3-initial_locations_multi_depot.png)
+*Initial problem setup with multiple depots*
+
+![Solution Routes with Multiple Depots](3-solution_routes_multi_depot.png)
+*Optimized solution with vehicles returning to their assigned depots*
 
 ## Understanding the Code
 
-The code demonstrates several key concepts:
-1. Problem modeling with OR-Tools
+All three scenarios demonstrate several key OR-Tools concepts:
+
+1. **Problem Modeling**
    - Setting up the routing index manager
    - Creating the routing model
    - Defining constraints and callbacks
 
-2. Time window constraints
-   - Each location has a specific time window
-   - Vehicles must arrive within these windows
-   - Service time at each location is considered
+2. **Constraint Handling**
+   - Time window constraints
+   - Capacity constraints
+   - Depot assignments
 
-3. Distance calculations
-   - Uses Manhattan distance between locations
-   - Converts distances to travel times
-   - Accounts for vehicle speed
+3. **Distance and Time Calculations**
+   - Manhattan distance between locations
+   - Travel time based on distance
+   - Service time at each location
 
-4. Route optimization
-   - Minimizes total travel time
-   - Respects all time window constraints
-   - Balances workload between vehicles
+4. **Solution Optimization**
+   - Minimizing total travel time
+   - Respecting all constraints
+   - Balanced workload between vehicles
 
-5. Solution visualization
-   - Clear visual representation of the problem
-   - Shows both initial setup and solution
-   - Helps understand the optimization results
+5. **Visualization**
+   - Clear visual representation of problems
+   - Route visualization with different colors
+   - Detailed annotation of constraints
+
+## Practical Applications
+
+These VRP models can be applied to various real-world scenarios:
+
+- **Delivery Services** with time and capacity constraints
+- **Service Technicians** starting from different locations
+- **Medical Supply Delivery** with critical time windows
+- **Food Delivery** with temperature/time constraints
+- **Logistics Companies** with multiple distribution centers
+
+## Extensions
+
+These models can be further extended with additional constraints:
+
+- Heterogeneous fleet (different vehicle speeds, costs)
+- Time-dependent travel times (traffic patterns)
+- Pickup and delivery pairs
+- Customer priorities or penalties
+- Vehicle driver shift constraints
