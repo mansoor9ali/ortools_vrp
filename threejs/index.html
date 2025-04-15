@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VRP Solution Visualization</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    #info {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255,255,255,0.8);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: Arial, sans-serif;
+      z-index: 10;
+    }
+    #animateBtn {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      z-index: 20;
+      padding: 8px 16px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    #animateBtn:active { background: #357a38; }
+  </style>
+</head>
+<body>
+  <div id="info">
+    <b>VRP Solution Visualization</b><br>
+    <span>Each colored line is a vehicle route. Blue spheres are stops.</span>
+  </div>
+  <button id="animateBtn">Start Animation</button>
+  <!-- <script src="https://unpkg.com/three@0.153.0/build/three.min.js"></script> -->
+  <!-- Three.js is now imported as a module in app.js -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

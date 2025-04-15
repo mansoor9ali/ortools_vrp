@@ -4,6 +4,7 @@ from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 import matplotlib.pyplot as plt
 import numpy as np
+import json
 
 def create_data_model():
     """Stores the data for the problem."""
@@ -143,6 +144,29 @@ def plot_solution(data, manager, routing, solution):
     return plt.gcf()
 
 
+def export_solution_to_json(data, manager, routing, solution, filename="threejs/vrp_solution.json"):
+    routes = []
+    for vehicle_id in range(data['num_vehicles']):
+        index = routing.Start(vehicle_id)
+        route = []
+        while not routing.IsEnd(index):
+            node_index = manager.IndexToNode(index)
+            route.append({
+                "location": data['locations'][node_index],
+                "node": node_index
+            })
+            index = solution.Value(routing.NextVar(index))
+        # Add the end node
+        node_index = manager.IndexToNode(index)
+        route.append({
+            "location": data['locations'][node_index],
+            "node": node_index
+        })
+        routes.append(route)
+    with open(filename, "w") as f:
+        json.dump({"routes": routes}, f)
+
+
 def main():
     """Entry point of the program."""
     # Instantiate the data problem.
@@ -240,6 +264,8 @@ def main():
         solution_plot = plot_solution(data, manager, routing, solution)
         solution_plot.savefig('1-solution_routes.png')
         plt.close()
+        # --- Export solution for Three.js visualization ---
+        export_solution_to_json(data, manager, routing, solution, "threejs/vrp_solution.json")
     else:
         print('No solution found!')
 
